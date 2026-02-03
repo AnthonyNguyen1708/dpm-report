@@ -1,1749 +1,1219 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light dark" />
-    <title>Training Reflection – From Internal PM → Digital PM</title>
-    <style>
-      :root {
-        --bg: #0b0d12;
-        --surface: #101423;
-        --surface-2: #0f1420;
-        --text: #e8ecf6;
-        --muted: rgba(232, 236, 246, 0.75);
-        --faint: rgba(232, 236, 246, 0.55);
-        --border: rgba(232, 236, 246, 0.12);
-        --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-        --accent: #7c5cff;
-        --accent-2: #12d6a7;
-        --warning: #ffcc66;
-        --danger: #ff6b6b;
-        --ok: #22c55e;
-        --radius: 18px;
-        --radius-sm: 14px;
-        --max: 1100px;
-        --sidebar: 290px;
-        --topbar: 54px;
-        --progress: 3px;
-        --ring: 0 0 0 3px rgba(124, 92, 255, 0.35);
-        --font:
-          system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
-          sans-serif;
-        --mono:
-          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          'Liberation Mono', 'Courier New', monospace;
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Training Reflection – From Internal PM → Digital PM</title>
+  <style>
+    :root{
+      --bg: #0b0d12;
+      --surface: #101423;
+      --surface-2: #0f1420;
+      --text: #e8ecf6;
+      --muted: rgba(232,236,246,.75);
+      --faint: rgba(232,236,246,.55);
+      --border: rgba(232,236,246,.12);
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --accent: #7c5cff;
+      --accent-2:#12d6a7;
+      --warning:#ffcc66;
+      --danger:#ff6b6b;
+      --ok:#22c55e;
+      --radius: 18px;
+      --radius-sm: 14px;
+      --max: 1100px;
+      --sidebar: 290px;
+      --topbar: 54px;
+      --progress: 3px;
+      --ring: 0 0 0 3px rgba(124,92,255,.35);
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #fbfbfe;
+        --surface:#ffffff;
+        --surface-2:#f6f7fb;
+        --text:#0d1324;
+        --muted: rgba(13,19,36,.72);
+        --faint: rgba(13,19,36,.55);
+        --border: rgba(13,19,36,.12);
+        --shadow: 0 20px 60px rgba(8,12,22,.10);
+        --ring: 0 0 0 3px rgba(124,92,255,.22);
       }
-      @media (prefers-color-scheme: light) {
-        :root {
-          --bg: #fbfbfe;
-          --surface: #ffffff;
-          --surface-2: #f6f7fb;
-          --text: #0d1324;
-          --muted: rgba(13, 19, 36, 0.72);
-          --faint: rgba(13, 19, 36, 0.55);
-          --border: rgba(13, 19, 36, 0.12);
-          --shadow: 0 20px 60px rgba(8, 12, 22, 0.1);
-          --ring: 0 0 0 3px rgba(124, 92, 255, 0.22);
-        }
-      }
+    }
 
-      * {
-        box-sizing: border-box;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
-        }
-        * {
-          scroll-behavior: auto !important;
-          transition: none !important;
-          animation: none !important;
-        }
-      }
-      body {
-        margin: 0;
-        font-family: var(--font);
-        color: var(--text);
-        background:
-          radial-gradient(
-            1200px 700px at 20% -10%,
-            rgba(124, 92, 255, 0.18),
-            transparent 60%
-          ),
-          radial-gradient(
-            900px 600px at 90% 10%,
-            rgba(18, 214, 167, 0.14),
-            transparent 55%
-          ),
-          radial-gradient(
-            700px 400px at 60% 110%,
-            rgba(255, 204, 102, 0.1),
-            transparent 55%
-          ),
-          var(--bg);
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
-      }
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-        text-decoration-thickness: 0.08em;
-        text-underline-offset: 0.18em;
-      }
-      a:focus-visible,
-      button:focus-visible {
-        outline: none;
-        box-shadow: var(--ring);
-        border-radius: 10px;
-      }
-      ::selection {
-        background: rgba(124, 92, 255, 0.22);
-      }
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior:auto; }
+      *{ scroll-behavior:auto !important; transition:none !important; animation:none !important; }
+    }
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(124,92,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 90% 10%, rgba(18,214,167,.14), transparent 55%),
+        radial-gradient(700px 400px at 60% 110%, rgba(255,204,102,.10), transparent 55%),
+        var(--bg);
+      line-height:1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration: underline; text-decoration-thickness: .08em; text-underline-offset: .18em; }
+    a:focus-visible, button:focus-visible{
+      outline:none;
+      box-shadow: var(--ring);
+      border-radius: 10px;
+    }
+    ::selection{ background: rgba(124,92,255,.22); }
 
-      /* Progress bar */
-      .progress {
-        position: fixed;
-        inset: 0 0 auto 0;
-        height: var(--progress);
-        z-index: 1000;
-        background: linear-gradient(
-          90deg,
-          rgba(124, 92, 255, 0.14),
-          rgba(18, 214, 167, 0.14)
-        );
-      }
-      .progress > i {
-        display: block;
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
-        transform-origin: left;
-      }
+    /* Progress bar */
+    .progress{
+      position:fixed;
+      inset:0 0 auto 0;
+      height: var(--progress);
+      z-index: 1000;
+      background: linear-gradient(90deg, rgba(124,92,255,.14), rgba(18,214,167,.14));
+    }
+    .progress > i{
+      display:block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset;
+      transform-origin: left;
+    }
 
-      /* Skip link */
-      .skip {
-        position: absolute;
-        left: 12px;
-        top: 10px;
-        padding: 10px 12px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        transform: translateY(-140%);
-        z-index: 1200;
-        box-shadow: var(--shadow);
-      }
-      .skip:focus {
-        transform: translateY(0);
-      }
+    /* Skip link */
+    .skip{
+      position:absolute;
+      left: 12px;
+      top: 10px;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transform: translateY(-140%);
+      z-index: 1200;
+      box-shadow: var(--shadow);
+    }
+    .skip:focus{ transform: translateY(0); }
 
-      /* Layout */
-      .shell {
-        display: grid;
-        grid-template-columns: var(--sidebar) 1fr;
-        gap: 24px;
-        max-width: calc(var(--max) + var(--sidebar) + 24px);
-        margin: 0 auto;
-        padding: calc(22px + var(--progress)) 18px 34px;
-        align-items: start;
-      }
-      @media (max-width: 980px) {
-        .shell {
-          grid-template-columns: 1fr;
-          gap: 14px;
-          padding: calc(10px + var(--progress)) 14px 30px;
-        }
-      }
-
-      /* Sticky TOC */
-      .toc {
-        position: sticky;
-        top: calc(var(--progress) + 14px);
-        align-self: start;
-        border: 1px solid var(--border);
-        background: color-mix(in oklab, var(--surface), transparent 0%);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        overflow: hidden;
-      }
-      .toc header {
-        padding: 14px 14px 12px;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        justify-content: space-between;
-        background:
-          radial-gradient(
-            600px 200px at 20% -20%,
-            rgba(124, 92, 255, 0.16),
-            transparent 60%
-          ),
-          var(--surface);
-      }
-      .toc h2 {
-        margin: 0;
-        font-size: 13px;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        color: var(--muted);
-        font-weight: 700;
-      }
-      .toc .meta {
-        font-size: 12px;
-        color: var(--faint);
-        font-family: var(--mono);
-        user-select: none;
-        white-space: nowrap;
-      }
-      .toc nav {
-        padding: 10px 10px 12px;
-      }
-      .toc ol {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-      .toc a {
-        display: flex;
-        gap: 10px;
-        align-items: flex-start;
-        padding: 10px 10px;
-        border-radius: 12px;
-        border: 1px solid transparent;
-        text-decoration: none;
-        color: var(--muted);
-        line-height: 1.35;
-      }
-      .toc a:hover {
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        border-color: var(--border);
-        text-decoration: none;
-        color: var(--text);
-      }
-      .toc a[aria-current='true'] {
-        background: linear-gradient(
-          135deg,
-          rgba(124, 92, 255, 0.22),
-          rgba(18, 214, 167, 0.12)
-        );
-        border-color: color-mix(in oklab, var(--accent), var(--border) 60%);
-        color: var(--text);
-      }
-      .toc .dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        margin-top: 4px;
-        background: rgba(232, 236, 246, 0.18);
-        flex: 0 0 auto;
-      }
-      .toc a[aria-current='true'] .dot {
-        background: linear-gradient(180deg, var(--accent), var(--accent-2));
-        box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.18);
-      }
-
-      /* Mobile TOC becomes top bar */
-      @media (max-width: 980px) {
-        .toc {
-          position: sticky;
-          top: var(--progress);
-          z-index: 900;
-        }
-        .toc header {
-          padding: 10px 12px;
-        }
-        .toc nav {
-          padding: 8px 10px 10px;
-        }
-        .toc ol {
-          flex-direction: row;
-          overflow: auto;
-          gap: 8px;
-          scroll-snap-type: x mandatory;
-          padding-bottom: 2px;
-        }
-        .toc li {
-          scroll-snap-align: start;
-        }
-        .toc a {
-          white-space: nowrap;
-          padding: 8px 10px;
-        }
-        .toc .dot {
-          display: none;
-        }
-      }
-
-      main {
-        min-width: 0;
-      }
-
-      /* Content blocks */
-      section {
-        border: 1px solid var(--border);
-        background: color-mix(in oklab, var(--surface), transparent 0%);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        padding: 22px;
-        scroll-margin-top: calc(var(--progress) + var(--topbar) + 14px);
-      }
-      @media (max-width: 980px) {
-        section {
-          padding: 16px;
-          scroll-margin-top: calc(var(--progress) + 84px);
-        }
-      }
-
-      .stack {
-        display: grid;
-        gap: 18px;
-      }
-      .eyebrow {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        color: var(--muted);
-        font-weight: 650;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        font-size: 12px;
-        margin: 0 0 8px;
-      }
-      .eyebrow .pill {
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 4px 10px;
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        color: var(--faint);
-        font-family: var(--mono);
-        font-size: 12px;
-        text-transform: none;
-        letter-spacing: 0;
-      }
-      h1 {
-        margin: 0 0 10px;
-        font-size: clamp(28px, 3.4vw, 44px);
-        line-height: 1.12;
-        letter-spacing: -0.02em;
-      }
-      h2 {
-        margin: 0 0 10px;
-        font-size: clamp(18px, 1.8vw, 22px);
-        letter-spacing: -0.01em;
-      }
-      h3 {
-        margin: 0 0 8px;
-        font-size: 16px;
-        letter-spacing: -0.01em;
-      }
-      p {
-        margin: 0 0 10px;
-        color: var(--muted);
-      }
-      ul {
-        margin: 10px 0 0;
-        padding-left: 18px;
-        color: var(--muted);
-      }
-      li {
-        margin: 6px 0;
-      }
-      code,
-      kbd {
-        font-family: var(--mono);
-        font-size: 0.92em;
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        border: 1px solid var(--border);
-        padding: 0.12em 0.35em;
-        border-radius: 8px;
-        color: color-mix(in oklab, var(--text), var(--accent) 10%);
-      }
-
-      /* Hero */
-      .hero {
-        padding: 26px;
-        background:
-          radial-gradient(
-            900px 320px at 12% 8%,
-            rgba(124, 92, 255, 0.22),
-            transparent 65%
-          ),
-          radial-gradient(
-            760px 300px at 88% 20%,
-            rgba(18, 214, 167, 0.18),
-            transparent 60%
-          ),
-          radial-gradient(
-            700px 240px at 35% 105%,
-            rgba(255, 204, 102, 0.12),
-            transparent 60%
-          ),
-          var(--surface);
-        overflow: hidden;
-        position: relative;
-      }
-      .hero .grid {
-        display: grid;
-        grid-template-columns: 1.3fr 0.7fr;
-        gap: 18px;
-        align-items: start;
-      }
-      @media (max-width: 980px) {
-        .hero .grid {
-          grid-template-columns: 1fr;
-        }
-        .hero {
-          padding: 18px;
-        }
-      }
-      .hero .subtitle {
-        font-size: 15px;
-        max-width: 66ch;
-        color: var(--muted);
-      }
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 12px;
-      }
-      .chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        color: var(--muted);
-        font-size: 13px;
-        user-select: none;
-      }
-      .chip b {
-        color: var(--text);
-        font-weight: 700;
-      }
-      .ctaRow {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        margin-top: 16px;
-        flex-wrap: wrap;
-      }
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 11px 14px;
-        border-radius: 14px;
-        border: 1px solid color-mix(in oklab, var(--accent), var(--border) 55%);
-        background: linear-gradient(
-          135deg,
-          rgba(124, 92, 255, 0.92),
-          rgba(18, 214, 167, 0.7)
-        );
-        color: #0b0d12;
-        font-weight: 750;
-        box-shadow: 0 12px 30px rgba(124, 92, 255, 0.18);
-        text-decoration: none;
-      }
-      .btn:hover {
-        filter: brightness(1.02);
-        text-decoration: none;
-      }
-      .btn.secondary {
-        background: transparent;
-        color: var(--text);
-        border-color: var(--border);
-        box-shadow: none;
-      }
-
-      .btn.secondary:hover {
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        text-decoration: none;
-      }
-
-      .hero .aside {
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        padding: 14px;
-      }
-      .kv {
-        display: grid;
+    /* Layout */
+    .shell{
+      display:grid;
+      grid-template-columns: var(--sidebar) 1fr;
+      gap: 24px;
+      max-width: calc(var(--max) + var(--sidebar) + 24px);
+      margin: 0 auto;
+      padding: calc(22px + var(--progress)) 18px 34px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .shell{
         grid-template-columns: 1fr;
-        gap: 10px;
-        margin-top: 6px;
+        gap: 14px;
+        padding: calc(10px + var(--progress)) 14px 30px;
       }
-      .kv .row {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 10px;
-        padding: 10px 12px;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        background: color-mix(in oklab, var(--surface), transparent 0%);
-      }
-      .kv .k {
-        color: var(--faint);
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        font-weight: 750;
-      }
-      .kv .v {
-        color: var(--text);
-        font-weight: 680;
-        font-family: var(--mono);
-        font-size: 12px;
-        text-align: right;
-        white-space: nowrap;
-      }
-      .mutedSmall {
-        color: var(--faint);
-        font-size: 12px;
-        margin: 10px 0 0;
-      }
+    }
 
-      /* Callout */
-      .callout {
-        border-radius: var(--radius);
-        border: 1px solid color-mix(in oklab, var(--accent), var(--border) 55%);
-        background:
-          linear-gradient(
-            135deg,
-            rgba(124, 92, 255, 0.12),
-            rgba(18, 214, 167, 0.08)
-          ),
-          color-mix(in oklab, var(--surface-2), transparent 0%);
-        padding: 14px;
-        display: flex;
-        gap: 12px;
-        align-items: flex-start;
-        margin-top: 14px;
-      }
-      .callout .icon {
-        width: 34px;
-        height: 34px;
-        border-radius: 12px;
-        display: grid;
-        place-items: center;
-        background: rgba(124, 92, 255, 0.18);
-        border: 1px solid rgba(124, 92, 255, 0.22);
-        flex: 0 0 auto;
-      }
-      .callout strong {
-        color: var(--text);
-      }
-      .callout p {
-        margin: 0;
-      }
+    /* Sticky TOC */
+    .toc{
+      position: sticky;
+      top: calc(var(--progress) + 14px);
+      align-self: start;
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface), transparent 0%);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .toc header{
+      padding: 14px 14px 12px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      justify-content: space-between;
+      background:
+        radial-gradient(600px 200px at 20% -20%, rgba(124,92,255,.16), transparent 60%),
+        var(--surface);
+    }
+    .toc h2{
+      margin:0;
+      font-size: 13px;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .toc .meta{
+      font-size: 12px;
+      color: var(--faint);
+      font-family: var(--mono);
+      user-select:none;
+      white-space:nowrap;
+    }
+    .toc nav{
+      padding: 10px 10px 12px;
+    }
+    .toc ol{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      gap: 4px;
+    }
+    .toc a{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      text-decoration:none;
+      color: var(--muted);
+      line-height:1.35;
+    }
+    .toc a:hover{
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      border-color: var(--border);
+      text-decoration:none;
+      color: var(--text);
+    }
+    .toc a[aria-current="true"]{
+      background:
+        linear-gradient(135deg, rgba(124,92,255,.22), rgba(18,214,167,.12));
+      border-color: color-mix(in oklab, var(--accent), var(--border) 60%);
+      color: var(--text);
+    }
+    .toc .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-top: 4px;
+      background: rgba(232,236,246,.18);
+      flex: 0 0 auto;
+    }
+    .toc a[aria-current="true"] .dot{
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 0 3px rgba(124,92,255,.18);
+    }
 
-      /* Cards */
-      .cards {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-        margin-top: 10px;
-      }
-      @media (max-width: 980px) {
-        .cards {
-          grid-template-columns: 1fr;
-        }
-      }
-      .card {
-        border: 1px solid var(--border);
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        border-radius: var(--radius);
-        padding: 14px;
-        position: relative;
-        overflow: hidden;
-      }
-      .card:before {
-        content: '';
-        position: absolute;
-        inset: -2px -2px auto auto;
-        width: 160px;
-        height: 120px;
-        background: radial-gradient(
-          80px 80px at 70% 20%,
-          rgba(124, 92, 255, 0.22),
-          transparent 60%
-        );
-        pointer-events: none;
-      }
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        background: color-mix(in oklab, var(--surface), transparent 0%);
-        font-size: 12px;
-        color: var(--faint);
-        margin-bottom: 10px;
-        font-weight: 650;
-      }
-      .badge svg {
-        width: 14px;
-        height: 14px;
-      }
-      .card p {
-        margin: 0;
-      }
-
-      /* Before/After */
-      .cols {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin-top: 10px;
-      }
-      @media (max-width: 980px) {
-        .cols {
-          grid-template-columns: 1fr;
-        }
-      }
-      .panel {
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 14px;
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-      }
-      .panel h3 {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin: 0 0 8px;
-      }
-      .tag {
-        font-size: 12px;
-        font-family: var(--mono);
-        padding: 4px 8px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        color: var(--faint);
-        background: color-mix(in oklab, var(--surface), transparent 0%);
-        white-space: nowrap;
-      }
-
-      /* Heatmap table */
-      .tableWrap {
-        overflow: auto;
-        border-radius: var(--radius);
-        border: 1px solid var(--border);
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        margin-top: 10px;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 720px;
-      }
-      th,
-      td {
-        padding: 12px 12px;
-        vertical-align: top;
-        border-bottom: 1px solid var(--border);
-      }
-      th {
+    /* Mobile TOC becomes top bar */
+    @media (max-width: 980px){
+      .toc{
         position: sticky;
-        top: 0;
-        background: color-mix(in oklab, var(--surface), transparent 0%);
-        text-align: left;
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--faint);
-        font-weight: 800;
-        z-index: 1;
+        top: var(--progress);
+        z-index: 900;
       }
-      tr:last-child td {
-        border-bottom: none;
-      }
-      .life {
-        font-weight: 800;
-        color: var(--text);
-      }
-      .exposure {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        font-family: var(--mono);
-        font-size: 12px;
-        color: var(--muted);
-        background: color-mix(in oklab, var(--surface), transparent 0%);
-        white-space: nowrap;
-      }
-      .exp-ok {
-        border-color: rgba(34, 197, 94, 0.35);
-        background: rgba(34, 197, 94, 0.1);
-        color: color-mix(in oklab, var(--text), var(--ok) 10%);
-      }
-      .exp-warn {
-        border-color: rgba(255, 204, 102, 0.4);
-        background: rgba(255, 204, 102, 0.1);
-        color: color-mix(in oklab, var(--text), var(--warning) 10%);
-      }
-      .exp-no {
-        border-color: rgba(255, 107, 107, 0.4);
-        background: rgba(255, 107, 107, 0.1);
-        color: color-mix(in oklab, var(--text), var(--danger) 10%);
-      }
-
-      .legend {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 10px;
-        color: var(--muted);
-        font-size: 13px;
-      }
-
-      /* Groups */
-      .groups {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin-top: 10px;
-      }
-      @media (max-width: 980px) {
-        .groups {
-          grid-template-columns: 1fr;
-        }
-      }
-      .group {
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        padding: 14px;
-      }
-      .group .head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 8px;
-      }
-      .group .head strong {
-        font-size: 14px;
-      }
-
-      /* Timeline / Stepper */
-      .timeline {
-        display: grid;
-        gap: 12px;
-        margin-top: 10px;
-      }
-      .step {
-        display: grid;
-        grid-template-columns: 42px 1fr;
-        gap: 12px;
-        align-items: start;
-        border: 1px solid var(--border);
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        border-radius: var(--radius);
-        padding: 14px;
-        position: relative;
-      }
-      .step:after {
-        content: '';
-        position: absolute;
-        left: 34px;
-        top: 52px;
-        bottom: -16px;
-        width: 2px;
-        background: linear-gradient(
-          180deg,
-          rgba(124, 92, 255, 0.55),
-          rgba(18, 214, 167, 0.15)
-        );
-        opacity: 0.7;
-      }
-      .step:last-child:after {
-        display: none;
-      }
-      .step .n {
-        width: 42px;
-        height: 42px;
-        border-radius: 16px;
-        display: grid;
-        place-items: center;
-        font-weight: 900;
-        font-family: var(--mono);
-        border: 1px solid color-mix(in oklab, var(--accent), var(--border) 55%);
-        background: linear-gradient(
-          135deg,
-          rgba(124, 92, 255, 0.2),
-          rgba(18, 214, 167, 0.1)
-        );
-        color: var(--text);
-      }
-      .kpis {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 10px;
-      }
-      .kpi {
-        font-family: var(--mono);
-        font-size: 12px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        background: color-mix(in oklab, var(--surface), transparent 0%);
-        color: var(--muted);
-        white-space: nowrap;
-      }
-
-      /* Footer */
-      footer {
-        border: 1px solid var(--border);
-        background: color-mix(in oklab, var(--surface), transparent 0%);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        padding: 18px;
-      }
-      .footerGrid {
-        display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 12px;
-        align-items: start;
-      }
-      @media (max-width: 980px) {
-        .footerGrid {
-          grid-template-columns: 1fr;
-        }
-      }
-      .links {
-        display: grid;
-        gap: 10px;
-        border: 1px dashed var(--border);
-        border-radius: var(--radius);
-        padding: 14px;
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-      }
-      .links a {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
+      .toc header{
         padding: 10px 12px;
-        border-radius: 14px;
-        border: 1px solid var(--border);
-        background: color-mix(in oklab, var(--surface), transparent 0%);
-        text-decoration: none;
       }
-      .links a:hover {
-        background: color-mix(in oklab, var(--surface-2), transparent 0%);
-        text-decoration: none;
+      .toc nav{
+        padding: 8px 10px 10px;
       }
-      .links span {
-        color: var(--faint);
-        font-family: var(--mono);
-        font-size: 12px;
+      .toc ol{
+        flex-direction: row;
+        overflow:auto;
+        gap: 8px;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 2px;
       }
+      .toc li{ scroll-snap-align: start; }
+      .toc a{
+        white-space: nowrap;
+        padding: 8px 10px;
+      }
+      .toc .dot{ display:none; }
+    }
 
-      /* Small helper */
-      .srOnly {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        border: 0;
-      }
-      .divider {
-        height: 1px;
-        background: var(--border);
-        margin: 14px 0;
-      }
-      .note {
-        margin-top: 10px;
-        color: var(--faint);
-        font-size: 13px;
-      }
-    </style>
-  </head>
-  <body>
-    <a class="skip" href="#content">Skip to content</a>
-    <div class="progress" role="presentation" aria-hidden="true">
-      <i id="progressBar"></i>
-    </div>
+    main{
+      min-width:0;
+    }
 
-    <div class="shell">
-      <aside class="toc" aria-label="Mục lục">
-        <header>
-          <h2>Mục lục</h2>
-          <div class="meta" id="readingMeta" aria-live="polite">—</div>
-        </header>
-        <nav>
-          <ol id="tocList">
-            <li>
-              <a href="#hero"
-                ><span class="dot" aria-hidden="true"></span
-                ><span>Hero</span></a
-              >
-            </li>
-            <li>
-              <a href="#overview"
-                ><span class="dot" aria-hidden="true"></span
-                ><span>Course Overview</span></a
-              >
-            </li>
-            <li>
-              <a href="#takeaways"
-                ><span class="dot" aria-hidden="true"></span
-                ><span>Key Takeaways</span></a
-              >
-            </li>
-            <li>
-              <a href="#before-after"
-                ><span class="dot" aria-hidden="true"></span
-                ><span>Where I am today vs DPM</span></a
-              >
-            </li>
-            <li>
-              <a href="#gaps"
-                ><span class="dot" aria-hidden="true"></span
-                ><span>Team Gaps by Lifecycle</span></a
-              >
-            </li>
-            <li>
-              <a href="#cando"
-                ><span class="dot" aria-hidden="true"></span
-                ><span>What I can do now</span></a
-              >
-            </li>
-            <li>
-              <a href="#need"
-                ><span class="dot" aria-hidden="true"></span
-                ><span>What I need from Sen/Anh</span></a
-              >
-            </li>
-            <li>
-              <a href="#plan"
-                ><span class="dot" aria-hidden="true"></span
-                ><span>30/60/90 Plan</span></a
-              >
-            </li>
-            <li>
-              <a href="#footer"
-                ><span class="dot" aria-hidden="true"></span
-                ><span>Footer</span></a
-              >
-            </li>
-          </ol>
-        </nav>
-      </aside>
+    /* Content blocks */
+    section{
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface), transparent 0%);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      scroll-margin-top: calc(var(--progress) + var(--topbar) + 14px);
+    }
+    @media (max-width: 980px){
+      section{ padding: 16px; scroll-margin-top: calc(var(--progress) + 84px); }
+    }
 
-      <main id="content" class="stack" tabindex="-1">
-        <!-- 1) HERO -->
-        <section id="hero" class="hero" aria-labelledby="heroTitle">
-          <div class="eyebrow">
-            <span class="pill">internal</span>
-            <span>reflection • growth • DPM</span>
+    .stack{ display:grid; gap: 18px; }
+    .eyebrow{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      color: var(--muted);
+      font-weight: 650;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin: 0 0 8px;
+    }
+    .eyebrow .pill{
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      color: var(--faint);
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform:none;
+      letter-spacing: 0;
+    }
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(28px, 3.4vw, 44px);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+    }
+    h2{
+      margin: 0 0 10px;
+      font-size: clamp(18px, 1.8vw, 22px);
+      letter-spacing: -0.01em;
+    }
+    h3{
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+    p{
+      margin: 0 0 10px;
+      color: var(--muted);
+    }
+    ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+    li{ margin: 6px 0; }
+    code, kbd{
+      font-family: var(--mono);
+      font-size: .92em;
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      border: 1px solid var(--border);
+      padding: .12em .35em;
+      border-radius: 8px;
+      color: color-mix(in oklab, var(--text), var(--accent) 10%);
+    }
+
+    /* Hero */
+    .hero{
+      padding: 26px;
+      background:
+        radial-gradient(900px 320px at 12% 8%, rgba(124,92,255,.22), transparent 65%),
+        radial-gradient(760px 300px at 88% 20%, rgba(18,214,167,.18), transparent 60%),
+        radial-gradient(700px 240px at 35% 105%, rgba(255,204,102,.12), transparent 60%),
+        var(--surface);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero .grid{
+      display:grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 18px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .hero .grid{ grid-template-columns: 1fr; }
+      .hero{ padding: 18px; }
+    }
+    .hero .subtitle{
+      font-size: 15px;
+      max-width: 66ch;
+      color: var(--muted);
+    }
+    .chips{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      color: var(--muted);
+      font-size: 13px;
+      user-select:none;
+    }
+    .chip b{ color: var(--text); font-weight: 700; }
+    .ctaRow{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid color-mix(in oklab, var(--accent), var(--border) 55%);
+      background: linear-gradient(135deg, rgba(124,92,255,.92), rgba(18,214,167,.70));
+      color: #0b0d12;
+      font-weight: 750;
+      box-shadow: 0 12px 30px rgba(124,92,255,.18);
+      text-decoration:none;
+    }
+    .btn:hover{ filter: brightness(1.02); text-decoration:none; }
+    .btn.secondary{
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+      box-shadow: none;
+    }
+    .btn.secondary:hover{
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      text-decoration:none;
+    }
+
+    .hero .aside{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      padding: 14px;
+    }
+    .kv{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .kv .row{
+      display:flex;
+      align-items:flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: color-mix(in oklab, var(--surface), transparent 0%);
+    }
+    .kv .k{
+      color: var(--faint);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      font-weight: 750;
+    }
+    .kv .v{
+      color: var(--text);
+      font-weight: 680;
+      font-family: var(--mono);
+      font-size: 12px;
+      text-align:right;
+      white-space: nowrap;
+    }
+    .mutedSmall{
+      color: var(--faint);
+      font-size: 12px;
+      margin: 10px 0 0;
+    }
+
+    /* Callout */
+    .callout{
+      border-radius: var(--radius);
+      border: 1px solid color-mix(in oklab, var(--accent), var(--border) 55%);
+      background:
+        linear-gradient(135deg, rgba(124,92,255,.12), rgba(18,214,167,.08)),
+        color-mix(in oklab, var(--surface-2), transparent 0%);
+      padding: 14px;
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+      margin-top: 14px;
+    }
+    .callout .icon{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      background: rgba(124,92,255,.18);
+      border: 1px solid rgba(124,92,255,.22);
+      flex: 0 0 auto;
+    }
+    .callout strong{ color: var(--text); }
+    .callout p{ margin: 0; }
+
+    /* Cards */
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    @media (max-width: 980px){
+      .cards{ grid-template-columns: 1fr; }
+    }
+    .card{
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      border-radius: var(--radius);
+      padding: 14px;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:before{
+      content:"";
+      position:absolute;
+      inset:-2px -2px auto auto;
+      width: 160px;
+      height: 120px;
+      background: radial-gradient(80px 80px at 70% 20%, rgba(124,92,255,.22), transparent 60%);
+      pointer-events:none;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface), transparent 0%);
+      font-size: 12px;
+      color: var(--faint);
+      margin-bottom: 10px;
+      font-weight: 650;
+    }
+    .badge svg{ width: 14px; height: 14px; }
+    .card p{ margin: 0; }
+
+    /* Before/After */
+    .cols{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    @media (max-width: 980px){
+      .cols{ grid-template-columns: 1fr; }
+    }
+    .panel{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+    }
+    .panel h3{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 0 0 8px;
+    }
+    .tag{
+      font-size: 12px;
+      font-family: var(--mono);
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--faint);
+      background: color-mix(in oklab, var(--surface), transparent 0%);
+      white-space: nowrap;
+    }
+
+    /* Heatmap table */
+    .tableWrap{
+      overflow:auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      margin-top: 10px;
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+    th, td{
+      padding: 12px 12px;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+    }
+    th{
+      position: sticky;
+      top: 0;
+      background: color-mix(in oklab, var(--surface), transparent 0%);
+      text-align:left;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--faint);
+      font-weight: 800;
+      z-index: 1;
+    }
+    tr:last-child td{ border-bottom: none; }
+    .life{
+      font-weight: 800;
+      color: var(--text);
+    }
+    .exposure{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      background: color-mix(in oklab, var(--surface), transparent 0%);
+      white-space: nowrap;
+    }
+    .exp-ok{ border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.10); color: color-mix(in oklab, var(--text), var(--ok) 10%); }
+    .exp-warn{ border-color: rgba(255,204,102,.40); background: rgba(255,204,102,.10); color: color-mix(in oklab, var(--text), var(--warning) 10%); }
+    .exp-no{ border-color: rgba(255,107,107,.40); background: rgba(255,107,107,.10); color: color-mix(in oklab, var(--text), var(--danger) 10%); }
+
+    .legend{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Groups */
+    .groups{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    @media (max-width: 980px){
+      .groups{ grid-template-columns: 1fr; }
+    }
+    .group{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      padding: 14px;
+    }
+    .group .head{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .group .head strong{ font-size: 14px; }
+
+    /* Timeline / Stepper */
+    .timeline{
+      display:grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .step{
+      display:grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items:start;
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      border-radius: var(--radius);
+      padding: 14px;
+      position:relative;
+    }
+    .step:after{
+      content:"";
+      position:absolute;
+      left: 34px;
+      top: 52px;
+      bottom: -16px;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(124,92,255,.55), rgba(18,214,167,.15));
+      opacity: .7;
+    }
+    .step:last-child:after{ display:none; }
+    .step .n{
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      font-weight: 900;
+      font-family: var(--mono);
+      border: 1px solid color-mix(in oklab, var(--accent), var(--border) 55%);
+      background: linear-gradient(135deg, rgba(124,92,255,.20), rgba(18,214,167,.10));
+      color: var(--text);
+    }
+    .kpis{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .kpi{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface), transparent 0%);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* Footer */
+    footer{
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface), transparent 0%);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .footerGrid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 12px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .footerGrid{ grid-template-columns: 1fr; }
+    }
+    .links{
+      display:grid;
+      gap: 10px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+    }
+    .links a{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface), transparent 0%);
+      text-decoration:none;
+    }
+    .links a:hover{
+      background: color-mix(in oklab, var(--surface-2), transparent 0%);
+      text-decoration:none;
+    }
+    .links span{
+      color: var(--faint);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    /* Small helper */
+    .srOnly{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      border:0;
+    }
+    .divider{
+      height: 1px;
+      background: var(--border);
+      margin: 14px 0;
+    }
+    .note{
+      margin-top: 10px;
+      color: var(--faint);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <div class="progress" role="presentation" aria-hidden="true"><i id="progressBar"></i></div>
+
+  <div class="shell">
+    <aside class="toc" aria-label="Mục lục">
+      <header>
+        <h2>Mục lục</h2>
+        <div class="meta" id="readingMeta" aria-live="polite">—</div>
+      </header>
+      <nav>
+        <ol id="tocList">
+          <li><a href="#hero"><span class="dot" aria-hidden="true"></span><span>Hero</span></a></li>
+          <li><a href="#overview"><span class="dot" aria-hidden="true"></span><span>Course Overview</span></a></li>
+          <li><a href="#takeaways"><span class="dot" aria-hidden="true"></span><span>Key Takeaways</span></a></li>
+          <li><a href="#before-after"><span class="dot" aria-hidden="true"></span><span>Where I am today vs DPM</span></a></li>
+          <li><a href="#gaps"><span class="dot" aria-hidden="true"></span><span>Team Gaps by Lifecycle</span></a></li>
+          <li><a href="#cando"><span class="dot" aria-hidden="true"></span><span>What I can do now</span></a></li>
+          <li><a href="#need"><span class="dot" aria-hidden="true"></span><span>What I need from Sen/Anh</span></a></li>
+          <li><a href="#closing"><span class="dot" aria-hidden="true"></span><span>Kết luận </span></a></li>
+        </ol>
+      </nav>
+    </aside>
+
+    <main id="content" class="stack" tabindex="-1">
+      <!-- 1) HERO -->
+      <section id="hero" class="hero" aria-labelledby="heroTitle">
+        <div class="eyebrow">
+          <span class="pill">internal</span>
+          <span>reflection • growth • DPM</span>
+        </div>
+        <div class="grid">
+          <div>
+            <h1 id="heroTitle">Training Reflection – From Internal PM → Digital PM</h1>
+            <p class="subtitle">
+              Sau khoá học, em nhìn rõ hơn: DPM không chỉ “follow dev” mà là <strong>hub of communication</strong> của dự án —
+              kết nối team ↔ stakeholders để cùng chung mục tiêu. Trọng tâm là truyền đạt rõ ràng, đồng bộ kỳ vọng, phát hiện rủi ro sớm,
+              và đưa ra quyết định đúng lúc để giảm ambiguity &amp; rework.
+            </p>
+
+            <div class="chips" aria-label="Lifecycle chips">
+              <span class="chip"><b>Discover</b></span>
+              <span class="chip"><b>Plan</b></span>
+              <span class="chip"><b>Design</b></span>
+              <span class="chip"><b>Build</b></span>
+              <span class="chip"><b>Deploy</b></span>
+              <span class="chip"><b>Evaluate &amp; Support</b></span>
+            </div>
+
+            <div class="ctaRow">
+              <a class="btn" href="#closing">
+                <span aria-hidden="true">↳</span>
+                View Closing Notes
+              </a>
+              <a class="btn secondary" href="#gaps">
+                <span aria-hidden="true">▦</span>
+                Jump to team gaps heatmap
+              </a>
+            </div>
+
+            <div class="callout" role="note" aria-label="Key note">
+              <div class="icon" aria-hidden="true">💡</div>
+              <div>
+                <p><strong>Intent:</strong> tài liệu này tối ưu cho đọc nội bộ agency — ngắn, rõ, có “why / what / how”.</p>
+                <p class="note">
+                  Mục tiêu cá nhân: chuyển từ <strong>Development PM</strong> sang <strong>Digital PM</strong> với lộ trình rõ ràng + được trao cơ hội
+                  làm trước-development (Discover/Plan/Design) và client-facing.
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="grid">
-            <div>
-              <h1 id="heroTitle">
-                Training Reflection – From Internal PM → Digital PM
-              </h1>
-              <p class="subtitle">
-                Sau khoá học, mình nhìn rõ hơn: DPM không chỉ “follow dev” mà là
-                <strong>hub of communication</strong> của dự án — kết nối team ↔
-                stakeholders để cùng chung mục tiêu. Trọng tâm là truyền đạt rõ
-                ràng, đồng bộ kỳ vọng, phát hiện rủi ro sớm, và đưa ra quyết
-                định đúng lúc để giảm ambiguity &amp; rework.
-              </p>
 
-              <div class="chips" aria-label="Lifecycle chips">
-                <span class="chip"><b>Discover</b></span>
-                <span class="chip"><b>Plan</b></span>
-                <span class="chip"><b>Design</b></span>
-                <span class="chip"><b>Build</b></span>
-                <span class="chip"><b>Deploy</b></span>
-                <span class="chip"><b>Evaluate &amp; Support</b></span>
-              </div>
-
-              <div class="ctaRow">
-                <a class="btn" href="#plan">
-                  <span aria-hidden="true">↳</span>
-                  View Action Plan 30/60/90
-                </a>
-                <a class="btn secondary" href="#gaps">
-                  <span aria-hidden="true">▦</span>
-                  Jump to team gaps heatmap
-                </a>
-              </div>
-
-              <div class="callout" role="note" aria-label="Key note">
-                <div class="icon" aria-hidden="true">💡</div>
+          <aside class="aside" aria-label="Quick snapshot">
+            <h2 style="margin:0 0 6px;">Quick snapshot</h2>
+            <p class="mutedSmall" style="margin:0;">Tóm tắt 60 giây cho người đọc nội bộ.</p>
+            <div class="kv" aria-label="Key-value">
+              <div class="row">
                 <div>
-                  <p>
-                    <strong>Intent:</strong> tài liệu này tối ưu cho đọc nội bộ
-                    agency — ngắn, rõ, có “why / what / how”.
-                  </p>
-                  <p class="note">
-                    Mục tiêu cá nhân: chuyển từ
-                    <strong>Development PM</strong> sang
-                    <strong>Digital PM</strong> với lộ trình rõ ràng + được trao
-                    cơ hội làm trước-development (Discover/Plan/Design) và
-                    client-facing.
-                  </p>
+                  <div class="k">Role</div>
+                  <div class="mutedSmall" style="margin:4px 0 0;">Current → Target</div>
                 </div>
+                <div class="v">Dev PM → DPM</div>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="k">Focus</div>
+                  <div class="mutedSmall" style="margin:4px 0 0;">Business goal → Scope → Sign-off</div>
+                </div>
+                <div class="v">clarity</div>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="k">Ask</div>
+                  <div class="mutedSmall" style="margin:4px 0 0;">Shadowing + mentoring</div>
+                </div>
+                <div class="v">support</div>
               </div>
             </div>
+            <p class="mutedSmall">[TODO: Điền tên khoá học / thời gian / 1 dự án áp dụng gần nhất.]</p>
+          </aside>
+        </div>
+      </section>
 
-            <aside class="aside" aria-label="Quick snapshot">
-              <h2 style="margin: 0 0 6px">Quick snapshot</h2>
-              <p class="mutedSmall" style="margin: 0">
-                Tóm tắt 60 giây cho người đọc nội bộ.
-              </p>
-              <div class="kv" aria-label="Key-value">
-                <div class="row">
-                  <div>
-                    <div class="k">Role</div>
-                    <div class="mutedSmall" style="margin: 4px 0 0">
-                      Current → Target
-                    </div>
-                  </div>
-                  <div class="v">Dev PM → DPM</div>
-                </div>
-                <div class="row">
-                  <div>
-                    <div class="k">Focus</div>
-                    <div class="mutedSmall" style="margin: 4px 0 0">
-                      Business goal → Scope → Sign-off
-                    </div>
-                  </div>
-                  <div class="v">clarity</div>
-                </div>
-                <div class="row">
-                  <div>
-                    <div class="k">Ask</div>
-                    <div class="mutedSmall" style="margin: 4px 0 0">
-                      Shadowing + mentoring
-                    </div>
-                  </div>
-                  <div class="v">support</div>
-                </div>
-              </div>
-              <p class="mutedSmall">
-                [TODO: Điền tên khoá học / thời gian / 1 dự án áp dụng gần
-                nhất.]
-              </p>
-            </aside>
-          </div>
-        </section>
+      <!-- 2) Course Overview -->
+      <section id="overview" aria-labelledby="overviewTitle">
+        <div class="eyebrow">
+          <span class="pill">section</span>
+          <span>overview</span>
+        </div>
+        <h2 id="overviewTitle">Course Overview</h2>
+        <p>
+          Khoá học giúp em nhìn lại vai trò DPM: role này không chỉ là người theo dõi tiến độ dev, mà là người kết nối và dẫn dắt để team
+          và stakeholders cùng chung một mục tiêu thông qua việc trở thành <strong>hub of communication</strong> của dự án.
+          DPM phải đảm bảo thông tin được truyền đạt rõ ràng, kỳ vọng được đồng bộ, rủi ro được phát hiện sớm và các quyết định được đưa ra đúng lúc.
+          Bên cạnh đó, khoá học giúp em nắm vòng đời chuẩn của dự án và trách nhiệm DPM ở từng giai đoạn: làm rõ requirements,
+          lập kế hoạch &amp; điều phối nguồn lực, phối hợp triển khai, đến deploy và theo dõi sau release.
+          Nhờ vậy, em có một quy trình rõ để vận hành dự án <strong>end-to-end</strong> thay vì chỉ tập trung vào phần development.
+        </p>
+        <p class="note">[TODO: Thêm 1–2 câu về format học (workshop/case study) + deliverables bạn nhận được.]</p>
+      </section>
 
-        <!-- 2) Course Overview -->
-        <section id="overview" aria-labelledby="overviewTitle">
-          <div class="eyebrow">
-            <span class="pill">section</span>
-            <span>overview</span>
-          </div>
-          <h2 id="overviewTitle">Course Overview</h2>
-          <p>
-            Khoá học giúp mình nhìn lại vai trò DPM: role này không chỉ là người
-            theo dõi tiến độ dev, mà là người kết nối và dẫn dắt để team và
-            stakeholders cùng chung một mục tiêu thông qua việc trở thành
-            <strong>hub of communication</strong> của dự án. DPM phải đảm bảo
-            thông tin được truyền đạt rõ ràng, kỳ vọng được đồng bộ, rủi ro được
-            phát hiện sớm và các quyết định được đưa ra đúng lúc. Bên cạnh đó,
-            khoá học giúp mình nắm vòng đời chuẩn của dự án và trách nhiệm DPM ở
-            từng giai đoạn: làm rõ requirements, lập kế hoạch &amp; điều phối
-            nguồn lực, phối hợp triển khai, đến deploy và theo dõi sau release.
-            Nhờ vậy, mình có một quy trình rõ để vận hành dự án
-            <strong>end-to-end</strong> thay vì chỉ tập trung vào phần
-            development.
-          </p>
-          <p class="note">
-            [TODO: Thêm 1–2 câu về format học (workshop/case study) +
-            deliverables bạn nhận được.]
-          </p>
-        </section>
-
-        <!-- 3) Key Takeaways -->
-        <section id="takeaways" aria-labelledby="takeawaysTitle">
-          <div class="eyebrow">
-            <span class="pill">section</span>
-            <span>insights</span>
-          </div>
-          <h2 id="takeawaysTitle">Key Takeaways</h2>
-          <div class="cards" role="list">
-            <article class="card" role="listitem" aria-labelledby="tk1">
-              <div class="badge">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M7 12h10M12 7v10"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    d="M5 5h14v14H5z"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    opacity=".7"
-                  />
-                </svg>
-                Hub of Communication
-              </div>
-              <h3 id="tk1">Hub of Communication</h3>
-              <p>
-                DPM là “trạm trung chuyển” giúp requirement → quyết định →
-                deliverables rõ ràng. Không chỉ truyền đạt, mà còn
-                <strong>clarify</strong>, <strong>align</strong>, và
-                <strong>document</strong> để stakeholders nhận đúng thông tin họ
-                cần (không report dài dòng lan man).
-              </p>
-              <ul>
-                <li>
-                  Thói quen: recap sau meeting (decision + owner + due date)
-                  thay vì “chat rời rạc”.
-                </li>
-                <li>
-                  Ví dụ: dùng <code>change log</code> + impact (time/cost/risk)
-                  thay vì “ok em update”.
-                </li>
-              </ul>
-            </article>
-            <article class="card" role="listitem" aria-labelledby="tk2">
-              <div class="badge">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M4 7h16M4 12h10M4 17h16"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                </svg>
-                Process Mindset
-              </div>
-              <h3 id="tk2">Process Mindset (inputs → outputs)</h3>
-              <p>
-                Thay vì nhận task rồi deliver, mình sẽ ưu tiên làm rõ “why”
-                &amp; “done” trước:
-                <strong>Mục tiêu business là gì?</strong>
-                <strong>Done nghĩa là gì?</strong>
-                <strong>Ngoài scope là gì?</strong>.
-              </p>
-              <ul>
-                <li>
-                  Input: problem statement, assumptions/constraints; Output:
-                  scope boundaries, AC/DoD, sign-off points.
-                </li>
-                <li>
-                  Khi process rõ: ít “solution đã chốt nhưng thiếu bối cảnh” →
-                  dễ kiểm soát scope/kỳ vọng hơn.
-                </li>
-              </ul>
-            </article>
-            <article class="card" role="listitem" aria-labelledby="tk3">
-              <div class="badge">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M6 19V9m6 10V5m6 14v-7"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                </svg>
-                Lifecycle
-              </div>
-              <h3 id="tk3">
-                Project Lifecycle (Discover → Evaluate &amp; Support)
-              </h3>
-              <p>
-                Mình đang mạnh ở Build. Điểm cần mở rộng là các activity trước
-                development (Discover/Plan/Design) để giảm rework, và Evaluate
-                &amp; Support để đóng vòng feedback sau release.
-              </p>
-              <ul>
-                <li>
-                  Discover: business goal, stakeholder interview, audit hiện
-                  trạng, assumptions/constraints.
-                </li>
-                <li>
-                  Design: đảm bảo flow/wireframe/content phản ánh đúng
-                  requirements + chốt sign-off theo mốc.
-                </li>
-              </ul>
-            </article>
-          </div>
-        </section>
-
-        <!-- 4) Where I am today vs DPM -->
-        <section id="before-after" aria-labelledby="baTitle">
-          <div class="eyebrow">
-            <span class="pill">section</span>
-            <span>gap awareness</span>
-          </div>
-          <h2 id="baTitle">Where I am today vs DPM</h2>
-          <div class="cols">
-            <div class="panel">
-              <h3>Current (Development PM) <span class="tag">today</span></h3>
-              <ul>
-                <li>
-                  Nhận yêu cầu theo dạng “task/solution đã chốt” và tập trung
-                  hoàn thành deliver task.
-                </li>
-                <li>
-                  Mindset còn nặng development → khi report cho stakeholder dễ
-                  đi sâu technical, chưa đúng trọng tâm.
-                </li>
-                <li>
-                  Chưa thật sự bình tĩnh khi gặp nhiều task/unknowns → dễ panic,
-                  ảnh hưởng team.
-                </li>
-                <li>
-                  Thiên về “giao việc/nắm status” hơn là servant leadership (tạo
-                  điều kiện để team làm dễ hơn).
-                </li>
-                <li>
-                  Chưa có nhiều cơ hội tham gia đầy đủ Discover/Plan/Design.
-                </li>
-              </ul>
+      <!-- 3) Key Takeaways -->
+      <section id="takeaways" aria-labelledby="takeawaysTitle">
+        <div class="eyebrow">
+          <span class="pill">section</span>
+          <span>insights</span>
+        </div>
+        <h2 id="takeawaysTitle">Key Takeaways</h2>
+        <div class="cards" role="list">
+          <article class="card" role="listitem" aria-labelledby="tk1">
+            <div class="badge">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7 12h10M12 7v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M5 5h14v14H5z" stroke="currentColor" stroke-width="2" opacity=".7"/>
+              </svg>
+              Hub of Communication
             </div>
-            <div class="panel">
-              <h3>Target (Digital PM) <span class="tag">desired</span></h3>
-              <ul>
-                <li>
-                  Luôn bắt đầu từ business goal: problem statement,
-                  assumptions/constraints, scope boundaries.
-                </li>
-                <li>
-                  Client-facing facilitation: điều phối meeting nhiều
-                  stakeholder + chốt decision &amp; sign-off đúng lúc.
-                </li>
-                <li>
-                  Servant leadership: unblock, tạo clarity, giúp team deliver
-                  nhanh/đúng thay vì chỉ tracking.
-                </li>
-                <li>
-                  Deliver đúng thông tin cho stakeholders: ngắn, đúng trọng tâm,
-                  có impact và next steps.
-                </li>
-                <li>
-                  Vận hành end-to-end: Discover → Plan → Design → Build → Deploy
-                  → Evaluate &amp; Support.
-                </li>
-              </ul>
+            <h3 id="tk1">Hub of Communication</h3>
+            <p>
+              DPM là “trạm trung chuyển” giúp requirement → quyết định → deliverables rõ ràng. Không chỉ truyền đạt, mà còn
+              <strong>clarify</strong>, <strong>align</strong>, và <strong>document</strong> để stakeholders nhận đúng thông tin họ cần (không report dài dòng lan man).
+            </p>
+            <ul>
+              <li>Thói quen: recap sau meeting (decision + owner + due date) thay vì “chat rời rạc”.</li>
+              <li>Ví dụ: dùng <code>change log</code> + impact (time/cost/risk) thay vì “ok em update”.</li>
+            </ul>
+          </article>
+          <article class="card" role="listitem" aria-labelledby="tk2">
+            <div class="badge">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 7h16M4 12h10M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Process Mindset
             </div>
-          </div>
-        </section>
-
-        <!-- 5) Team Gaps by Lifecycle -->
-        <section id="gaps" aria-labelledby="gapsTitle">
-          <div class="eyebrow">
-            <span class="pill">section</span>
-            <span>heatmap</span>
-          </div>
-          <h2 id="gapsTitle">Team Gaps by Lifecycle</h2>
-          <p class="note">
-            Dựa theo trải nghiệm hiện tại: mình đang là Development PM nên các
-            activity trước development mới chỉ “chạm một phần”.
-          </p>
-          <div
-            class="tableWrap"
-            role="region"
-            aria-label="Team gaps table"
-            tabindex="0"
-          >
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">Lifecycle</th>
-                  <th scope="col">Team exposure</th>
-                  <th scope="col">What’s missing</th>
-                  <th scope="col">DPM skills to build</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="life">Discover</td>
-                  <td>
-                    <span
-                      class="exposure exp-warn"
-                      aria-label="Team exposure warning"
-                      >⚠️ partial</span
-                    >
-                  </td>
-                  <td>
-                    Ít tham gia đầy đủ: business goal, stakeholder interview,
-                    audit hiện trạng, chốt problem statement.
-                  </td>
-                  <td>
-                    Discovery questions, stakeholder mapping, document
-                    assumptions/constraints, define outcomes.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="life">Plan</td>
-                  <td>
-                    <span
-                      class="exposure exp-warn"
-                      aria-label="Team exposure warning"
-                      >⚠️ partial</span
-                    >
-                  </td>
-                  <td>
-                    Chưa chạm đủ: deliverables/milestones, ưu tiên feature, rủi
-                    ro–phụ thuộc; framework đo hiệu quả/ROI.
-                  </td>
-                  <td>
-                    Work breakdown, milestone &amp; sign-off plan, dependency
-                    map, RAID, measurement plan.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="life">Design</td>
-                  <td>
-                    <span class="exposure exp-no" aria-label="Team exposure low"
-                      >❌ low</span
-                    >
-                  </td>
-                  <td>
-                    Chủ yếu “được inform”, chưa thực sự làm vai trò DPM: đảm bảo
-                    flow/wireframe/content bám requirements.
-                  </td>
-                  <td>
-                    Design review facilitation, decision log, handoff checklist,
-                    sign-off theo mốc để tránh vòng lặp chỉnh sửa.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="life">Build</td>
-                  <td>
-                    <span class="exposure exp-ok" aria-label="Team exposure ok"
-                      >✅ strong</span
-                    >
-                  </td>
-                  <td>
-                    Mạnh ở delivery; rủi ro là rework khi thiếu bối cảnh ban đầu
-                    hoặc scope/AC rõ.
-                  </td>
-                  <td>
-                    Backlog grooming, AC/DoD hygiene, change control, dependency
-                    tracking.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="life">Deploy</td>
-                  <td>
-                    <span
-                      class="exposure exp-warn"
-                      aria-label="Team exposure warning"
-                      >⚠️ partial</span
-                    >
-                  </td>
-                  <td>
-                    Thiếu chuẩn hoá “ready to release” + ai sign-off + thông tin
-                    cần gửi sau release.
-                  </td>
-                  <td>
-                    Release readiness checklist, comms plan, sign-off protocol,
-                    rollback/contingency basics.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="life">Evaluate &amp; Support</td>
-                  <td>
-                    <span class="exposure exp-no" aria-label="Team exposure low"
-                      >❌ low</span
-                    >
-                  </td>
-                  <td>
-                    Chưa có “vòng feedback” rõ: metrics/learned + quy trình
-                    support/triage + ownership.
-                  </td>
-                  <td>
-                    Post-release review, KPI tracking, issue triage, support
-                    SLA, continuous improvement loop.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="legend" aria-label="Legend">
-            <span class="exposure exp-ok">✅ strong</span>
-            <span class="exposure exp-warn">⚠️ partial</span>
-            <span class="exposure exp-no">❌ low</span>
-            <span class="note"
-              >Legend: “exposure” = mức team đã từng làm/được ownership thực
-              tế.</span
-            >
-          </div>
-        </section>
-
-        <!-- 6) What I can do now -->
-        <section id="cando" aria-labelledby="candoTitle">
-          <div class="eyebrow">
-            <span class="pill">section</span>
-            <span>execution</span>
-          </div>
-          <h2 id="candoTitle">What I can do now</h2>
-          <div class="groups">
-            <div class="group" aria-labelledby="g1">
-              <div class="head">
-                <strong id="g1">0–4 weeks (Do now)</strong>
-                <span class="tag">no dependency</span>
-              </div>
-              <ul>
-                <li>
-                  Áp dụng “3 câu hỏi”: business goal / done nghĩa là gì / ngoài
-                  scope là gì — trước khi nhận task.
-                </li>
-                <li>
-                  Chuẩn hóa <code>RAID</code> + <code>change log</code> +
-                  decision log (template 1 trang, dùng consistently).
-                </li>
-                <li>
-                  Rút gọn report theo stakeholder: 3 dòng <em>status</em> + 1
-                  dòng <em>risk</em> + 1 dòng <em>ask/decision</em>.
-                </li>
-                <li>
-                  Thực hành servant leadership: mỗi tuần hỏi “team đang bị kẹt
-                  gì? mình gỡ được gì?”.
-                </li>
-                <li>
-                  Giữ bình tĩnh khi overload: tạo checklist xử lý unknowns
-                  (triage → clarify → plan → communicate).
-                </li>
-              </ul>
+            <h3 id="tk2">Process Mindset (inputs → outputs)</h3>
+            <p>
+              Thay vì nhận task rồi deliver, em sẽ ưu tiên làm rõ “why” &amp; “done” trước:
+              <strong>Mục tiêu business là gì?</strong> <strong>Done nghĩa là gì?</strong> <strong>Ngoài scope là gì?</strong>.
+            </p>
+            <ul>
+              <li>Input: problem statement, assumptions/constraints; Output: scope boundaries, AC/DoD, sign-off points.</li>
+              <li>Khi process rõ: ít “solution đã chốt nhưng thiếu bối cảnh” → dễ kiểm soát scope/kỳ vọng hơn.</li>
+            </ul>
+          </article>
+          <article class="card" role="listitem" aria-labelledby="tk3">
+            <div class="badge">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 19V9m6 10V5m6 14v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Lifecycle
             </div>
-            <div class="group" aria-labelledby="g2">
-              <div class="head">
-                <strong id="g2">1–3 months (With access/ownership)</strong>
-                <span class="tag">needs access</span>
-              </div>
-              <ul>
-                <li>
-                  Shadow/assist 1 DPM senior ở Discover/Plan/Design (meeting →
-                  notes → recap → follow-up decisions).
-                </li>
-                <li>
-                  Co-facilitate stakeholder interview (internal/client): câu
-                  hỏi, ghi nhận, và tổng hợp thành scope &amp; assumptions.
-                </li>
-                <li>
-                  Lead 1 phase nhỏ: deliverables/milestones + sign-off
-                  checkpoints + comms plan.
-                </li>
-                <li>
-                  Involve cross-department (Design/UX, Content, Account): đảm
-                  bảo output phản ánh đúng requirements.
-                </li>
-                <li>
-                  Build KPI tracking đơn giản: clarity %, risks identified sớm,
-                  CR có impact, decision turnaround time.
-                </li>
-              </ul>
+            <h3 id="tk3">Project Lifecycle (Discover → Evaluate &amp; Support)</h3>
+            <p>
+              Em đang mạnh ở Build. Điểm cần mở rộng là các activity trước development (Discover/Plan/Design) để giảm rework,
+              và Evaluate &amp; Support để đóng vòng feedback sau release.
+            </p>
+            <ul>
+              <li>Discover: business goal, stakeholder interview, audit hiện trạng, assumptions/constraints.</li>
+              <li>Design: đảm bảo flow/wireframe/content phản ánh đúng requirements + chốt sign-off theo mốc.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4) Where I am today vs DPM -->
+      <section id="before-after" aria-labelledby="baTitle">
+        <div class="eyebrow">
+          <span class="pill">section</span>
+          <span>gap awareness</span>
+        </div>
+        <h2 id="baTitle">Where I am today vs DPM</h2>
+        <div class="cols">
+          <div class="panel">
+            <h3>Current (Development PM) <span class="tag">today</span></h3>
+            <ul>
+              <li>Nhận yêu cầu theo dạng “task/solution đã chốt” và tập trung hoàn thành deliver task.</li>
+              <li>Mindset còn nặng development → khi report cho stakeholder dễ đi sâu technical, chưa đúng trọng tâm.</li>
+              <li>Chưa thật sự bình tĩnh khi gặp nhiều task/unknowns → dễ panic, ảnh hưởng team.</li>
+              <li>Thiên về “giao việc/nắm status” hơn là servant leadership (tạo điều kiện để team làm dễ hơn).</li>
+              <li>Chưa có nhiều cơ hội tham gia đầy đủ Discover/Plan/Design.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Target (Digital PM) <span class="tag">desired</span></h3>
+            <ul>
+              <li>Luôn bắt đầu từ business goal: problem statement, assumptions/constraints, scope boundaries.</li>
+              <li>Client-facing facilitation: điều phối meeting nhiều stakeholder + chốt decision &amp; sign-off đúng lúc.</li>
+              <li>Servant leadership: unblock, tạo clarity, giúp team deliver nhanh/đúng thay vì chỉ tracking.</li>
+              <li>Deliver đúng thông tin cho stakeholders: ngắn, đúng trọng tâm, có impact và next steps.</li>
+              <li>Vận hành end-to-end: Discover → Plan → Design → Build → Deploy → Evaluate &amp; Support.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5) Team Gaps by Lifecycle -->
+      <section id="gaps" aria-labelledby="gapsTitle">
+        <div class="eyebrow">
+          <span class="pill">section</span>
+          <span>heatmap</span>
+        </div>
+        <h2 id="gapsTitle">Team Gaps by Lifecycle</h2>
+        <p class="note">Dựa theo trải nghiệm hiện tại: em đang là Development PM nên các activity trước development mới chỉ “chạm một phần”.</p>
+        <div class="tableWrap" role="region" aria-label="Team gaps table" tabindex="0">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Lifecycle</th>
+                <th scope="col">Team exposure</th>
+                <th scope="col">What’s missing</th>
+                <th scope="col">DPM skills to build</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="life">Discover</td>
+                <td><span class="exposure exp-warn" aria-label="Team exposure warning">⚠️ partial</span></td>
+                <td>Ít tham gia đầy đủ: business goal, stakeholder interview, audit hiện trạng, chốt problem statement.</td>
+                <td>Discovery questions, stakeholder mapping, document assumptions/constraints, define outcomes.</td>
+              </tr>
+              <tr>
+                <td class="life">Plan</td>
+                <td><span class="exposure exp-warn" aria-label="Team exposure warning">⚠️ partial</span></td>
+                <td>Chưa chạm đủ: deliverables/milestones, ưu tiên feature, rủi ro–phụ thuộc; framework đo hiệu quả/ROI.</td>
+                <td>Work breakdown, milestone &amp; sign-off plan, dependency map, RAID, measurement plan.</td>
+              </tr>
+              <tr>
+                <td class="life">Design</td>
+                <td><span class="exposure exp-no" aria-label="Team exposure low">❌ low</span></td>
+                <td>Chủ yếu “được inform”, chưa thực sự làm vai trò DPM: đảm bảo flow/wireframe/content bám requirements.</td>
+                <td>Design review facilitation, decision log, handoff checklist, sign-off theo mốc để tránh vòng lặp chỉnh sửa.</td>
+              </tr>
+              <tr>
+                <td class="life">Build</td>
+                <td><span class="exposure exp-ok" aria-label="Team exposure ok">✅ strong</span></td>
+                <td>Mạnh ở delivery; rủi ro là rework khi thiếu bối cảnh ban đầu hoặc scope/AC rõ.</td>
+                <td>Backlog grooming, AC/DoD hygiene, change control, dependency tracking.</td>
+              </tr>
+              <tr>
+                <td class="life">Deploy</td>
+                <td><span class="exposure exp-warn" aria-label="Team exposure warning">⚠️ partial</span></td>
+                <td>Thiếu chuẩn hoá “ready to release” + ai sign-off + thông tin cần gửi sau release.</td>
+                <td>Release readiness checklist, comms plan, sign-off protocol, rollback/contingency basics.</td>
+              </tr>
+              <tr>
+                <td class="life">Evaluate &amp; Support</td>
+                <td><span class="exposure exp-no" aria-label="Team exposure low">❌ low</span></td>
+                <td>Chưa có “vòng feedback” rõ: metrics/learned + quy trình support/triage + ownership.</td>
+                <td>Post-release review, KPI tracking, issue triage, support SLA, continuous improvement loop.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="legend" aria-label="Legend">
+          <span class="exposure exp-ok">✅ strong</span>
+          <span class="exposure exp-warn">⚠️ partial</span>
+          <span class="exposure exp-no">❌ low</span>
+          <span class="note">Legend: “exposure” = mức team đã từng làm/được ownership thực tế.</span>
+        </div>
+      </section>
+
+      <!-- 6) What I can do now -->
+      <section id="cando" aria-labelledby="candoTitle">
+        <div class="eyebrow">
+          <span class="pill">section</span>
+          <span>execution</span>
+        </div>
+        <h2 id="candoTitle">What I can do now</h2>
+        <div class="groups">
+          <div class="group" aria-labelledby="g1">
+            <div class="head">
+              <strong id="g1">0–4 weeks (Do now)</strong>
+              <span class="tag">no dependency</span>
             </div>
+            <ul>
+              <li>Áp dụng “3 câu hỏi”: business goal / done nghĩa là gì / ngoài scope là gì — trước khi nhận task.</li>
+              <li>Chuẩn hóa <code>RAID</code> + <code>change log</code> + decision log (template 1 trang, dùng consistently).</li>
+              <li>Rút gọn report theo stakeholder: 3 dòng <em>status</em> + 1 dòng <em>risk</em> + 1 dòng <em>ask/decision</em>.</li>
+              <li>Thực hành servant leadership: mỗi tuần hỏi “team đang bị kẹt gì? em gỡ được gì?”.</li>
+              <li>Giữ bình tĩnh khi overload: tạo checklist xử lý unknowns (triage → clarify → plan → communicate).</li>
+            </ul>
           </div>
-        </section>
-
-        <!-- 7) What I need from Sen/Anh -->
-        <section id="need" aria-labelledby="needTitle">
-          <div class="eyebrow">
-            <span class="pill">section</span>
-            <span>support</span>
-          </div>
-          <h2 id="needTitle">What I need from Sen/Anh</h2>
-          <ul>
-            <li>
-              <strong>Opportunity</strong>: cho cơ hội tham gia sâu hơn vào các
-              giai đoạn trước development (Discover/Plan/Design).
-            </li>
-            <li>
-              <strong>Shadowing/assist</strong>: 2–4 tuần theo 1 DPM senior ở
-              các buổi stakeholder interview + meeting nhiều stakeholders.
-            </li>
-            <li>
-              <strong>Mentoring/coaching</strong>: review tình huống thực tế
-              (scope, expectation management, quyết định, sign-off).
-            </li>
-            <li>
-              <strong>Client-facing exposure</strong>: được thử dẫn một phần
-              meeting (agenda + facilitation + recap) dưới sự hỗ trợ.
-            </li>
-            <li>
-              <strong>Cross-department</strong>: được phối hợp Account/Client
-              service, Design/UX, Content để đúng “hub of communication”.
-            </li>
-            <li>
-              <strong>Business/agency mindset</strong>: chia sẻ thêm về business
-              context để mình cân bằng technical ↔ business khi quyết định.
-            </li>
-          </ul>
-        </section>
-
-        <!-- 8) 30/60/90 Plan -->
-        <section id="plan" aria-labelledby="planTitle">
-          <div class="eyebrow">
-            <span class="pill">section</span>
-            <span>timeline</span>
-          </div>
-          <h2 id="planTitle">30/60/90 Plan</h2>
-          <p class="note">
-            Mục tiêu: tăng clarity, giảm rework, và mở rộng client-facing
-            ownership theo từng mốc. [TODO: customize theo dự án hiện tại]
-          </p>
-          <div class="timeline" role="list">
-            <article class="step" role="listitem" aria-labelledby="p30">
-              <div class="n" aria-hidden="true">30</div>
-              <div>
-                <h3 id="p30">0–30 days: Foundation &amp; hygiene</h3>
-                <ul>
-                  <li>
-                    Thực hành “3 câu hỏi” cho mọi yêu cầu mới; ghi rõ scope
-                    boundaries + assumptions/constraints.
-                  </li>
-                  <li>
-                    Chuẩn hóa <strong>RAID</strong> +
-                    <strong>change log</strong> + decision log cho 1 dự án.
-                  </li>
-                  <li>
-                    Rút gọn stakeholder update: status/risk/ask, đảm bảo “đúng
-                    trọng tâm”.
-                  </li>
-                </ul>
-                <div class="kpis" aria-label="KPI suggestions 30 days">
-                  <span class="kpi">AC clarity ≥ [TODO:%]</span>
-                  <span class="kpi">Risks identified ≥ [TODO:#]</span>
-                  <span class="kpi">CR logged w/ impact = 100%</span>
-                </div>
-              </div>
-            </article>
-            <article class="step" role="listitem" aria-labelledby="p60">
-              <div class="n" aria-hidden="true">60</div>
-              <div>
-                <h3 id="p60">31–60 days: Co-lead client comms</h3>
-                <ul>
-                  <li>
-                    Shadow/assist 1 DPM senior: stakeholder interview +
-                    discovery/plan/design review.
-                  </li>
-                  <li>
-                    Co-facilitate 1–2 buổi meeting nhiều stakeholder: agenda →
-                    facilitation → recap → decision follow-up.
-                  </li>
-                  <li>
-                    Lead kế hoạch cho 1 phase nhỏ: deliverables/milestones +
-                    sign-off checkpoints + comms plan.
-                  </li>
-                </ul>
-                <div class="kpis" aria-label="KPI suggestions 60 days">
-                  <span class="kpi">Sign-off on milestones ≥ [TODO:#]</span>
-                  <span class="kpi">Response SLA ≤ [TODO:h]</span>
-                  <span class="kpi"
-                    >Rework due to unclear scope ↓ [TODO:%]</span
-                  >
-                </div>
-              </div>
-            </article>
-            <article class="step" role="listitem" aria-labelledby="p90">
-              <div class="n" aria-hidden="true">90</div>
-              <div>
-                <h3 id="p90">
-                  61–90 days: Ownership &amp; measurable outcomes
-                </h3>
-                <ul>
-                  <li>
-                    Owner 1 deliverable end-to-end: từ yêu cầu → scope/AC → plan
-                    → change control → sign-off.
-                  </li>
-                  <li>
-                    Chạy post-release review: lessons learned + hỗ trợ
-                    support/triage để đóng vòng feedback.
-                  </li>
-                  <li>
-                    Thiết lập KPI đơn giản: clarity %, risks identified early,
-                    CR impact, decision turnaround time.
-                  </li>
-                </ul>
-                <div class="kpis" aria-label="KPI suggestions 90 days">
-                  <span class="kpi">On-time milestones ≥ [TODO:%]</span>
-                  <span class="kpi">Client satisfaction (qual.) = [TODO]</span>
-                  <span class="kpi">Support issues triaged ≤ [TODO:h]</span>
-                </div>
-              </div>
-            </article>
-          </div>
-
-          <div class="divider" aria-hidden="true"></div>
-          <p class="note">
-            Gợi ý đo lường nhanh: <code>AC clarity %</code> = số task có AC rõ /
-            tổng task; <code>risks identified early</code> = risks log trước khi
-            dev; <code>CR with impact</code> = change request luôn có impact
-            (time/cost/scope); <code>decision turnaround</code> = thời gian từ
-            “ask” → “decision”.
-          </p>
-        </section>
-
-        <!-- 9) FOOTER -->
-        <footer id="footer" aria-labelledby="footerTitle">
-          <div class="footerGrid">
-            <div>
-              <h2 id="footerTitle">Thanks / Next steps</h2>
-              <p>
-                Cảm ơn Sen/Anh đã đọc. Mình muốn chốt 1–2 “next steps” cụ thể:
-                scope mình sẽ own, timeline support, và cách feedback định kỳ.
-              </p>
-              <ul>
-                <li>
-                  [TODO: chốt ngày review plan (ví dụ: cuối tuần / cuối
-                  sprint).]
-                </li>
-                <li>[TODO: chốt dự án/phase cụ thể để apply 30/60/90.]</li>
-              </ul>
-              <p class="note">
-                Tip: Nếu cần, mình có thể convert nội dung này thành 1 template
-                dùng chung cho team.
-              </p>
+          <div class="group" aria-labelledby="g2">
+            <div class="head">
+              <strong id="g2">1–3 months (With access/ownership)</strong>
+              <span class="tag">needs access</span>
             </div>
-            <div class="links" aria-label="Links area">
-              <h3 style="margin: 0">Links / Templates</h3>
-              <a href="#" aria-label="RAID template placeholder">
-                <strong>RAID Template</strong>
-                <span>[TODO: link]</span>
-              </a>
-              <a href="#" aria-label="Change log template placeholder">
-                <strong>Change Log</strong>
-                <span>[TODO: link]</span>
-              </a>
-              <a href="#" aria-label="UAT plan template placeholder">
-                <strong>UAT Plan</strong>
-                <span>[TODO: link]</span>
-              </a>
-              <a href="#" aria-label="Decision log template placeholder">
-                <strong>Decision Log</strong>
-                <span>[TODO: link]</span>
-              </a>
-            </div>
+            <ul>
+              <li>Shadow/assist 1 DPM senior ở Discover/Plan/Design (meeting → notes → recap → follow-up decisions).</li>
+              <li>Co-facilitate stakeholder interview (internal/client): câu hỏi, ghi nhận, và tổng hợp thành scope &amp; assumptions.</li>
+              <li>Lead 1 phase nhỏ: deliverables/milestones + sign-off checkpoints + comms plan.</li>
+              <li>Involve cross-department (Design/UX, Content, Account): đảm bảo output phản ánh đúng requirements.</li>
+              <li>Build KPI tracking đơn giản: clarity %, risks identified sớm, CR có impact, decision turnaround time.</li>
+            </ul>
           </div>
-        </footer>
-      </main>
-    </div>
+        </div>
+      </section>
 
-    <script>
-      (function () {
-        const progressBar = document.getElementById('progressBar');
-        const meta = document.getElementById('readingMeta');
-        const toc = document.getElementById('tocList');
-        const tocLinks = Array.from(toc.querySelectorAll('a[href^="#"]'));
-        const sections = tocLinks
-          .map((a) => document.querySelector(a.getAttribute('href')))
-          .filter(Boolean);
+      <!-- 7) What I need from Sen/Anh -->
+      <section id="need" aria-labelledby="needTitle">
+        <div class="eyebrow">
+          <span class="pill">section</span>
+          <span>support</span>
+        </div>
+        <h2 id="needTitle">What I need from Sen/Anh</h2>
+        <ul>
+          <li><strong>Opportunity</strong>: cho cơ hội tham gia sâu hơn vào các giai đoạn trước development (Discover/Plan/Design).</li>
+          <li><strong>Shadowing/assist</strong>: 2–4 tuần theo 1 DPM senior ở các buổi stakeholder interview + meeting nhiều stakeholders.</li>
+          <li><strong>Mentoring/coaching</strong>: review tình huống thực tế (scope, expectation management, quyết định, sign-off).</li>
+          <li><strong>Client-facing exposure</strong>: được thử dẫn một phần meeting (agenda + facilitation + recap) dưới sự hỗ trợ.</li>
+          <li><strong>Cross-department</strong>: được phối hợp Account/Client service, Design/UX, Content để đúng “hub of communication”.</li>
+          <li><strong>Business/agency mindset</strong>: chia sẻ thêm về business context để em cân bằng technical ↔ business khi quyết định.</li>
+        </ul>
+      </section>
 
-        // Reduce motion preference
-        const prefersReduced =
-          window.matchMedia &&
-          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      <!-- 8) Closing -->
+      <section id="closing" aria-labelledby="closingTitle">
+        <div class="eyebrow">
+          <span class="pill">section</span>
+          <span>closing</span>
+        </div>
+        <h2 id="closingTitle">Kết luận: Em muốn trở thành DPM gì — và điều gì đang cản trở?</h2>
 
-        // Progress bar + reading meta
-        function onScroll() {
-          const doc = document.documentElement;
-          const scrollTop = doc.scrollTop || document.body.scrollTop;
-          const scrollHeight =
-            (doc.scrollHeight || document.body.scrollHeight) - doc.clientHeight;
-          const p = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
-          if (progressBar) progressBar.style.width = (p * 100).toFixed(2) + '%';
+        <div class="cols" aria-label="Conclusion split">
+          <div class="panel">
+            <h3>Hướng đi em chọn <span class="tag">DPM</span></h3>
+            <p>
+              Em muốn trở thành một <strong>DPM đúng nghĩa</strong> thay vì chỉ focus ở vai trò internal VN PM như hiện tại.
+              Dù em hiểu rằng hiện tại em vẫn còn nhiều khía cạnh chưa thể full fill hoàn toàn theo đúng chuẩn DPM,
+              nhưng em tin rằng nếu có một <strong>lộ trình phát triển rõ ràng</strong> và được trao cơ hội để thử sức ở các đầu việc đúng DPM,
+              em sẽ có thể hoàn thiện năng lực và fit với vai trò này trong tương lai.
+            </p>
+            <ul>
+              <li>Cam kết: chủ động học &amp; làm theo process (Discover → Evaluate &amp; Support), không chỉ “follow dev”.</li>
+              <li>Ưu tiên: clarity (scope/AC), RAID, change log, và sign-off đúng lúc.</li>
+              <li>[TODO: Thêm 1 câu “tại sao DPM phù hợp với em” theo trải nghiệm cá nhân.]</li>
+            </ul>
+          </div>
 
-          if (meta) {
-            const pct = Math.round(p * 100);
-            meta.textContent = pct + '%';
-          }
+          <div class="panel">
+            <h3>Rào cản hiện tại <span class="tag">blockers</span></h3>
+            <p>
+              Những yếu tố đang cản trở em trở thành một DPM thực thụ hiện tại chủ yếu đến từ <strong>cơ hội trải nghiệm</strong>.
+              Em chưa có nhiều <strong>client-facing exposure</strong> để luyện kỹ năng quản lý kỳ vọng, thương lượng và ra quyết định với stakeholder;
+              đồng thời cũng chưa có nhiều cơ hội làm việc <strong>cross-department</strong> trong agency (Design/UX, Content, Account/Client service…)
+              để thực sự đóng vai trò “hub of communication” và điều phối end-to-end.
+            </p>
+            <ul>
+              <li>Thiếu exposure trước development: Discover/Plan/Design → dễ nhận “solution đã chốt”, thiếu bối cảnh &amp; scope control.</li>
+              <li>Thiếu phạm vi trách nhiệm đủ rộng để build muscle: deliverables, sign-off, change control.</li>
+              <li>Cần môi trường “được thử &amp; được feedback” để tăng tốc.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout" role="note" aria-label="Closing ask">
+          <div class="icon" aria-hidden="true">🤝</div>
+          <div>
+            <p>
+              <strong>Điều em cần nhất hiện tại:</strong> được tham gia sâu hơn vào các giai đoạn trước development, và được giao phạm vi trách nhiệm rộng hơn
+              (client-facing + cross-department) để phát triển đúng hướng DPM.
+            </p>
+            <p class="note">[TODO: Chốt 1 “next step” cụ thể: shadowing ai, dự án nào, mốc review khi nào.]</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const progressBar = document.getElementById("progressBar");
+      const meta = document.getElementById("readingMeta");
+      const toc = document.getElementById("tocList");
+      const tocLinks = Array.from(toc.querySelectorAll('a[href^="#"]'));
+      const sections = tocLinks
+        .map(a => document.querySelector(a.getAttribute("href")))
+        .filter(Boolean);
+
+      // Reduce motion preference
+      const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Progress bar + reading meta
+      function onScroll() {
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || document.body.scrollTop;
+        const scrollHeight = (doc.scrollHeight || document.body.scrollHeight) - doc.clientHeight;
+        const p = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+        if (progressBar) progressBar.style.width = (p * 100).toFixed(2) + "%";
+
+        if (meta) {
+          const pct = Math.round(p * 100);
+          meta.textContent = pct + "%";
         }
+      }
 
-        // Scrollspy (IntersectionObserver)
-        function setActiveById(id) {
-          tocLinks.forEach((a) => {
-            const isActive = a.getAttribute('href') === '#' + id;
-            a.setAttribute('aria-current', isActive ? 'true' : 'false');
-          });
-        }
-
-        let lastActive = '';
-        const io =
-          'IntersectionObserver' in window
-            ? new IntersectionObserver(
-                (entries) => {
-                  // Pick the most visible intersecting section
-                  const visible = entries
-                    .filter((e) => e.isIntersecting)
-                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-                  if (!visible.length) return;
-                  const id = visible[0].target.id;
-                  if (id && id !== lastActive) {
-                    lastActive = id;
-                    setActiveById(id);
-                  }
-                },
-                {
-                  root: null,
-                  threshold: [0.2, 0.35, 0.5, 0.65],
-                  rootMargin: '-10% 0px -70% 0px',
-                },
-              )
-            : null;
-
-        if (io) sections.forEach((s) => io.observe(s));
-        // Default active
-        if (sections[0] && sections[0].id) {
-          lastActive = sections[0].id;
-          setActiveById(lastActive);
-        }
-
-        // Smooth anchor jump with focus management (a11y)
-        tocLinks.forEach((a) => {
-          a.addEventListener('click', (e) => {
-            const href = a.getAttribute('href');
-            if (!href || href.length < 2) return;
-            const target = document.querySelector(href);
-            if (!target) return;
-            e.preventDefault();
-            target.scrollIntoView({
-              behavior: prefersReduced ? 'auto' : 'smooth',
-              block: 'start',
-            });
-            // Move focus for keyboard/screen readers
-            target.setAttribute('tabindex', '-1');
-            target.focus({preventScroll: true});
-            setActiveById(target.id);
-            // Update URL hash without jumping
-            if (history && history.pushState) history.pushState(null, '', href);
-          });
+      // Scrollspy (IntersectionObserver)
+      function setActiveById(id) {
+        tocLinks.forEach(a => {
+          const isActive = a.getAttribute("href") === "#" + id;
+          a.setAttribute("aria-current", isActive ? "true" : "false");
         });
+      }
 
-        // initial + listeners
-        onScroll();
-        window.addEventListener('scroll', onScroll, {passive: true});
-        window.addEventListener('resize', onScroll);
-      })();
-    </script>
-  </body>
+      let lastActive = "";
+      const io = ("IntersectionObserver" in window)
+        ? new IntersectionObserver((entries) => {
+            // Pick the most visible intersecting section
+            const visible = entries
+              .filter(e => e.isIntersecting)
+              .sort((a, b) => (b.intersectionRatio - a.intersectionRatio));
+            if (!visible.length) return;
+            const id = visible[0].target.id;
+            if (id && id !== lastActive) {
+              lastActive = id;
+              setActiveById(id);
+            }
+          }, { root: null, threshold: [0.2, 0.35, 0.5, 0.65], rootMargin: "-10% 0px -70% 0px" })
+        : null;
+
+      if (io) sections.forEach(s => io.observe(s));
+      // Default active
+      if (sections[0] && sections[0].id) {
+        lastActive = sections[0].id;
+        setActiveById(lastActive);
+      }
+
+      // Smooth anchor jump with focus management (a11y)
+      tocLinks.forEach(a => {
+        a.addEventListener("click", (e) => {
+          const href = a.getAttribute("href");
+          if (!href || href.length < 2) return;
+          const target = document.querySelector(href);
+          if (!target) return;
+          e.preventDefault();
+          target.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" });
+          // Move focus for keyboard/screen readers
+          target.setAttribute("tabindex", "-1");
+          target.focus({ preventScroll: true });
+          setActiveById(target.id);
+          // Update URL hash without jumping
+          if (history && history.pushState) history.pushState(null, "", href);
+        });
+      });
+
+      // initial + listeners
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+    })();
+  </script>
+</body>
 </html>
+
